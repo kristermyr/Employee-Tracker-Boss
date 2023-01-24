@@ -35,8 +35,18 @@ const db = mysql.createConnection(
        .then((answer) => {
         const { choices } = answer;
            if(choices ==="View All Employees"){
-            viewEmployees()
+            viewEmployees();
            }
+           if(choices ==="View All Roles"){
+            viewRoles();
+           }
+           if(choices ==="View All Departments"){
+            viewAllDepartments();
+           }
+           if(choices ==="View Employees By Manager"){
+            viewEmployeesByManager();
+           }
+           
        });
    };
 
@@ -49,4 +59,32 @@ const db = mysql.createConnection(
         menu();
     })
   }
+
+  const viewRoles = () =>{
+    const query = 'SELECT * FROM role';
+    db.query(query, (err,res) => {
+        if(err) throw err;
+        console.table(res);
+        menu();
+    })
+  }
+
+  const viewAllDepartments = () =>{
+    const query = 'SELECT * FROM department';
+    db.query(query, (err,res) => {
+        if(err) throw err;
+        console.table(res);
+        menu();
+    })
+  }
+  
+  const viewEmployeesByManager = () =>{
+    const query = 'SELECT * FROM employee ORDER BY manager_id';
+    db.query(query, (err,res) => {
+        if(err) throw err;
+        console.table(res);
+        menu();
+    })
+  }
+  
   menu();
