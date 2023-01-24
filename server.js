@@ -1,15 +1,15 @@
-const inquirer = require("inquirer");
 const mysql = require('mysql2');
+const inquirer = require("inquirer");
 const { createConnection } = require("net");
 
 const db = mysql.createConnection(
     {
       host: 'localhost',
       user: 'root',
-      password: 'Carrots',
+      password: 'carrots',
       database: 'employees_db'
-    },
-    console.log(`Connected to the employee_db database.`)
+    }, 
+    console.log(`Connected to the employee_db database.`),
   );
 
   const menu = () => {                                //prompts questions asking which employee you would like to add
@@ -43,9 +43,10 @@ const db = mysql.createConnection(
 //view functions
    const viewEmployees = () =>{
     const query = 'SELECT * FROM employee';
-    createConnection.query(query, (err,res) => {
+    db.query(query, (err,res) => {
         if(err) throw err;
         console.table(res);
+        menu();
     })
-    menu();
   }
+  menu();
