@@ -46,6 +46,9 @@ const db = mysql.createConnection(
            if(choices ==="View Employees By Manager"){
             viewEmployeesByManager();
            }
+           if(choices ==="Add New Department"){
+            addDepartment();
+           }
            
        });
    };
@@ -85,6 +88,26 @@ const db = mysql.createConnection(
         console.table(res);
         menu();
     })
+  }
+  // adding 
+  const addDepartment = () => {                
+    inquirer.prompt ([                      //prompts questions
+ {
+    type: "input",                                              // moves forward with the appropriate questions for the selected class
+    message:"What is the name of the department you would like to add?",
+    name: "newdepartment",
+    validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
+    }
+])
+.then((data) => {
+  db.query('INSERT INTO department SET ?',
+  {
+    name: data.newdepartment,
+  }
+);
+console.log(`${data.newdepartment} has been added as a new department!`)
+viewAllDepartments();
+});
   }
   
   menu();
