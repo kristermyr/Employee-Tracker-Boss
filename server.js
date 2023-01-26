@@ -62,7 +62,7 @@ const db = mysql.createConnection(
 
 //view functions
    const viewEmployees = () =>{
-    const query = 'SELECT * FROM employee JOIN role on employee.role_id = role.id JOIN department on role.department_id = department.id LEFT JOIN employee boss on boss.id = employee.manager_id';
+    const query = 'SELECT * FROM employee JOIN role on employee.role_id = role.id JOIN department on role.department_id = department.id;'
     db.query(query, (err,res) => {
         if(err) throw err;
         console.table(res);
