@@ -1,5 +1,19 @@
+
+// XWHEN I choose to view all roles
+// XTHEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
+// XWHEN I choose to view all employees
+// XTHEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
+// XWHEN I choose to add a department
+// XTHEN I am prompted to enter the name of the department and that department is added to the database
+// WHEN I choose to add a role
+// THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
+// XWHEN I choose to add an employee
+// XTHEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
+// XWHEN I choose to update an employee role
+// XTHEN I am prompted to select an employee to update and their new role and this information is updated in the database
 const mysql = require('mysql2');
 const inquirer = require("inquirer");
+require("console.table");
 const { createConnection } = require("net");
 
 const db = mysql.createConnection(
@@ -26,7 +40,7 @@ const db = mysql.createConnection(
            'Add New Employee',
            'Add New Role',
            'Add New Department',
-           'Update Employee',
+           'Update Employee Role',
            'Delete Employee',
            'Delete Role',
            'Delete Department',
@@ -53,8 +67,11 @@ const db = mysql.createConnection(
            if(choices ==="Add New Employee"){
             addEmployee();
            }
-           if(choices ==="Update Employee"){
+           if(choices ==="Update Employee Role"){
             updateEmployee();
+           }
+           if(choices ==="Add New Role"){
+            addRole();
            }
            
        });
@@ -71,7 +88,7 @@ const db = mysql.createConnection(
   }
 
   const viewRoles = () =>{
-    const query = 'SELECT * FROM role';
+    const query = 'SELECT * FROM role'
     db.query(query, (err,res) => {
         if(err) throw err;
         console.table(res);
@@ -98,6 +115,44 @@ const db = mysql.createConnection(
     })
   }
   // adding 
+  const addRole = () => {                
+    inquirer.prompt ([                      //prompts questions
+ {
+    type: "input",                                              // moves forward with the appropriate questions for the selected class
+    message:"What is the name of the role you would like to add?",
+    name: "title",
+    validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
+    },
+    {
+      type: "input",                                              // moves forward with the appropriate questions for the selected class
+      message:"What is the salary of the role you would like to add?",
+      name: "salary",
+      validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
+      },
+      {
+        type: "input",                                              // moves forward with the appropriate questions for the selected class
+        message:"What department does the role belong to?",
+        name: "department",
+        validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
+        }
+])
+.then((data) => {
+  db.query('INSERT INTO role SET ?',
+  {
+    title: data.title,
+    salary:data.salary
+
+  },
+),{
+  name: data.department,
+ 
+
+},
+console.log(`${data.newrole} has been added as a role!`)
+viewRoles();
+});
+
+  }
   const addDepartment = () => {                
     inquirer.prompt ([                      //prompts questions
  {
@@ -118,6 +173,7 @@ viewAllDepartments();
 });
 
   }
+  
 
   const updateEmployee = () => {
     
@@ -140,39 +196,39 @@ viewAllDepartments();
            
             
             inquirer.prompt([
-                    {
-                        type: 'list',
-                        name: 'selectEmployee',
-                        message: 'Select the employee you would like to update',
-                        choices: employees,
-                    },
-                    {
-                        type: 'list',
-                        name: 'selectRole',
-                        message: 'Select the role you would like the employee to have',
-                        choices: roles,
-                    },
-                ])
-                .then((data) => {
-                    db.query('UPDATE employee SET ? WHERE ?',
-                        [   {
-                                role_id: data.selectRole,
-                            },
-                            {
-                                id: data.selectEmployee,
-                            },
-                        ],
-                        function (err) {
-                            if (err) throw err;
-                        }
-                    );
-                    console.log('The employee has been updated!');
-                    viewRoles();
-                });
+              {
+                  type: 'list',
+                  name: 'selectEmployee',
+                  message: 'Select the employee you would like to update',
+                  choices: employees,
+              },
+              {
+                  type: 'list',
+                  name: 'selectRole',
+                  message: 'Select the role you would like the employee to have',
+                  choices: roles,
+              },
+          ])
+          .then((data) => {
+              db.query('UPDATE employee SET ? WHERE ?',
+                  [   {
+                          role_id: data.selectRole,
+                      },
+                      {
+                          id: data.selectEmployee,
+                      },
+                  ],
+                  function (err) {
+                      if (err) throw err;
+                  }
+              );
+              console.log('The employee has been updated!');
+              viewEmployees();
+          });
 
-        });
-    });
-};
+             });
+          });
+          };
 
 
     const addEmployee = () => {  
