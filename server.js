@@ -120,6 +120,7 @@ viewAllDepartments();
   }
 
   const updateEmployee = () => {
+    
     db.query('SELECT * FROM employee', (err, employees) => {
         if (err) console.log(err);
         employees = employees.map((employee) => {
@@ -136,6 +137,8 @@ viewAllDepartments();
                     value: role.id,
                 }
             });
+           
+            
             inquirer.prompt([
                     {
                         type: 'list',
@@ -174,49 +177,65 @@ viewAllDepartments();
 
 
     const addEmployee = () => {  
-          
-    inquirer.prompt ([                      //prompts questions
- {
-    type: "input",                                              // moves forward with the appropriate questions for the selected class
-    message:"What is the first name of the employee you would like to add?",
-    name: "firstname",
-    validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
-    },
-    {
-      type: "input",                                              // moves forward with the appropriate questions for the selected class
-      message:"What is the last name of the employee you would like to add?",
-      name: "lastname",
-      validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
-      },
-      {
-        type: "list",                                              // moves forward with the appropriate questions for the selected class
-        message:"What is the role of the employee you would like to add?",
-        name: "role",
-        choices:roles,
-        validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
-        },
+      db.query('SELECT * FROM role', (err, roles) => {
+        if (err) console.log(err);
+        roles = roles.map((role) => {
+            return {
+                name: role.title,
+                value: role.id,
+
+            }
+        });
+        
+        inquirer.prompt ([                      //prompts questions
         {
-          type: "input",                                              // moves forward with the appropriate questions for the selected class
-          message:"select a manager id for the new employee?",
-          name: "managerId",
-          choices:[1,2,3,4,5],
-          validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
-          }
-])
-.then((data) => {
-  db.query('INSERT INTO employee SET ?',
-  {
-    fist_name: data.firstname,
-    last_name: data.lastname,
-    roles_id: data.role,
-    manager_id: data.managerId,
+           type: "input",                                              // moves forward with the appropriate questions for the selected class
+           message:"What is the first name of the employee you would like to add?",
+           name: "firstname",
+           validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
+           },
+           {
+             type: "input",                                              // moves forward with the appropriate questions for the selected class
+             message:"What is the last name of the employee you would like to add?",
+             name: "lastname",
+             validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
+             },
+             {
+               type: "list",                                              // moves forward with the appropriate questions for the selected class
+               message:"What is the role of the employee you would like to add?",
+               name: "role",
+               choices:roles,
+               validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
+               },
+               {
+                 type: "list",                                              // moves forward with the appropriate questions for the selected class
+                 message:"select a manager id for the new employee?",
+                 name: "managerId",
+                 choices:[1,2,3,4,5],
+                 validate:(value) =>{if(value){return true} else {return 'I need an answer to continue'}}   // validates, need an answer to continue
+                 }
+       ])
+       .then((data) => {
+        console.log(data.role);
+         db.query('INSERT INTO employee SET ?',
+         {
+           fist_name: data.firstname,
+           last_name: data.lastname,
+           roles_id: data.role,
+           manager_id: data.managerId,
+       
+         },
+         (err) => {
+          if (err) throw err;
 
-  }
-);
-console.log(`${data.firstname, data.lastname} has been added as a ${data.roles}`)
-viewEmployees();
-});
-
+       console.log(`${data.firstname, data.lastname} has been added as a ${data.roles}`)
+       viewEmployees();
+       });
+       
+      });
+    })
+      
+   
   }
   
   menu();
