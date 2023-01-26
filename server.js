@@ -175,7 +175,6 @@ viewAllDepartments();
 };
 
 
-
     const addEmployee = () => {  
       db.query('SELECT * FROM role', (err, roles) => {
         if (err) console.log(err);
@@ -219,16 +218,16 @@ viewAllDepartments();
         console.log(data.role);
          db.query('INSERT INTO employee SET ?',
          {
-           fist_name: data.firstname,
+           first_name: data.firstname,
            last_name: data.lastname,
-           roles_id: data.role,
+           role_id: data.role,
            manager_id: data.managerId,
        
          },
          (err) => {
           if (err) throw err;
 
-       console.log(`${data.firstname, data.lastname} has been added as a ${data.roles}`)
+       console.log(`${data.firstname, data.lastname} has been added as a ${data.role}`)
        viewEmployees();
        });
        
