@@ -14,7 +14,7 @@ The Employee Tracker shows some of my newly learned skills working with node.js 
   * [Questions](#questions)
 
   ## Installation
-  Download and install folder, install node and run node index.js in the integrated terminal
+  Download and install folder, install node and run npm i, then node index.js in the integrated terminal
   Github Repository: https://github.com/kristermyr/Employee-Tracker-Boss
 
   ## Usage
