@@ -25,20 +25,19 @@ The Employee Tracker shows some of my newly learned skills working with node.js 
   Inquirer, MySQL2, console.table package
   ## Credits
  
-  ## BCS Learning Assistants 
-
-* David Gaither
-* Mia Dilberovicm
+   BCS Learning Assistants: 
+  * David Gaither
+  * Mia Dilberovicm
 
   ## Github
-* https://github.com/angelinama/employee-tracker/blob/main/index.js
-* https://github.com/rdevans87/MySQL-Employee-Tracker/blob/main/employeeTracker.js
-* https://github.com/Ethanlloyd21/MySQL-Employee-Tracker/blob/master/index.js
+  * https://github.com/angelinama/employee-tracker/blob/main/index.js
+  * https://github.com/rdevans87/MySQL-Employee-Tracker/blob/main/employeeTracker.js
+  * https://github.com/Ethanlloyd21/MySQL-Employee-Tracker/blob/master/index.js
 
-## Youtube
-* https://www.youtube.com/watch?v=3KO_BLuK9AQ&t=236s&ab_channel=AustinCuddeback
+  ## Youtube
+  * https://www.youtube.com/watch?v=3KO_BLuK9AQ&t=236s&ab_channel=AustinCuddeback
 
-## Collaborators
+  ## Collaborators
   * Dylan Quaale - https://github.com/dylanquaale/employee-tracker
 
   ## License
