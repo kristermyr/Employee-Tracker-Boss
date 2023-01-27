@@ -1,21 +1,8 @@
-
-// XWHEN I choose to view all roles
-// XTHEN I am presented with the job title, role id, the department that role belongs to, and the salary for that role
-// XWHEN I choose to view all employees
-// XTHEN I am presented with a formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
-// XWHEN I choose to add a department
-// XTHEN I am prompted to enter the name of the department and that department is added to the database
-// WHEN I choose to add a role
-// THEN I am prompted to enter the name, salary, and department for the role and that role is added to the database
-// XWHEN I choose to add an employee
-// XTHEN I am prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
-// XWHEN I choose to update an employee role
-// XTHEN I am prompted to select an employee to update and their new role and this information is updated in the database
+require("console.table");
 const mysql = require('mysql2');
 const inquirer = require("inquirer");
-require("console.table");
-const { createConnection } = require("net");
 
+const { createConnection } = require("net");
 const db = mysql.createConnection(
     {
       host: 'localhost',
@@ -73,6 +60,9 @@ const db = mysql.createConnection(
            if(choices ==="Add New Role"){
             addRole();
            }
+           if(choices ==="Exit Menu"){
+            Exit();
+           }
            
        });
    };
@@ -115,7 +105,8 @@ const db = mysql.createConnection(
     })
   }
   // adding 
-  const addRole = () => {                
+  const addRole = () => {   
+              
     inquirer.prompt ([                      //prompts questions
  {
     type: "input",                                              // moves forward with the appropriate questions for the selected class
@@ -294,3 +285,8 @@ viewAllDepartments();
   }
   
   menu();
+  function Exit() {
+    console.log("Thank you , have a great day!");
+    db.end();
+    process.exit();
+  }
