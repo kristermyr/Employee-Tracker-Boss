@@ -1,4 +1,4 @@
-USE employees_db;
+USE employees_db;                -- Seeds that are imputs for testing 
 
 INSERT INTO department (name)
 VALUES ('Engineering'),
